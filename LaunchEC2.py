@@ -15,7 +15,7 @@ def launch_instance(ami='ami-1dd99174',
                     tag='myucsc',
                     user_data=None,
                     cmd_shell=True,
-                    login_user='ec2-user',
+                    login_user='bitname', # default user on BitNami AMIs, ec2-user is the default on Ubuntu AMIs
                     ssh_passwd=None):
     """
     Launch an instance and wait for it to start running.

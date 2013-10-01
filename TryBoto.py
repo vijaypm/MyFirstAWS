@@ -24,5 +24,14 @@ for r in regions:
 
 #ec2_conn = regions[0].connect()
 ec2_conn = boto.ec2.connect_to_region('us-west-1', debug=2)
-print
+reservations = ec2_conn.get_all_instances()
+reservations
+#[Reservation:r-615f6302, Reservation:r-26d09a44, Reservation:r-b3e903d5]
+#instances = []
+#for r in reservations:
+#    instances.extend(r.instances)
+instances = [i for r in reservations for i in r.instances]
+instances
+ec2_conn.stop_instances([i.id for i in instances])
+ec2_conn.terminate_instances([i.id for i in instances])
 
