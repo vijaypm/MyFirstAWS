@@ -3,19 +3,22 @@ import os
 import time
 import boto
 import boto.manage.cmdshell
+import boto.ec2
+import defaults
 
-def launch_instance(ami='ami-1dd99174',
-                    instance_type='t1.micro',
-                    key_name='myucsc',
-                    key_extension='.pem',
-                    key_dir='~/.ssh',
+def launch_instance(ec2_region=defaults.EC2_REGION,
+                    ami=defaults.AMI_BITNAMI_DJANGOSTACK_UBUNTU32,
+                    instance_type=defaults.MICRO_INSTANCE,
+                    key_name=defaults.KEY_NAME,
+                    key_extension=defaults.KEY_EXTENSION,
+                    key_dir=defaults.KEY_DIR,
                     group_name='myucsc',
                     ssh_port=22,
                     cidr='0.0.0.0/0',
-                    tag='myucsc',
+                    tag=defaults.INSTANCE_TAG,
                     user_data=None,
                     cmd_shell=True,
-                    login_user='bitname', # default user on BitNami AMIs, ec2-user is the default on Ubuntu AMIs
+                    login_user=defaults.EC2_USER_BITNAMI, # default user on BitNami AMIs, ec2-user is the default on Ubuntu AMIs
                     ssh_passwd=None):
     """
     Launch an instance and wait for it to start running.
@@ -64,7 +67,8 @@ def launch_instance(ami='ami-1dd99174',
     # You can pass credentials in to the connect_ec2 method explicitly
     # or you can use the default credentials in your ~/.boto config file
     # as we are doing here.
-    ec2 = boto.connect_ec2()
+    #ec2 = boto.connect_ec2()
+    ec2 = boto.ec2.connect_to_region(ec2_region)
 
     # Check to see if specified keypair already exists.
     # If we get an InvalidKeyPair.NotFound error back from EC2,

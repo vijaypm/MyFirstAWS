@@ -34,4 +34,5 @@ instances = [i for r in reservations for i in r.instances]
 instances
 ec2_conn.stop_instances([i.id for i in instances])
 ec2_conn.terminate_instances([i.id for i in instances])
+#ec2_conn.terminate_instances([reservation.instances[0].id for reservation in ec2.get_all_instances()])
 
