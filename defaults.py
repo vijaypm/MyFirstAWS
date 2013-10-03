@@ -14,4 +14,6 @@ KEY_DIR='~/.ssh'
 KEY_PATH = os.path.join(os.path.expanduser(KEY_DIR),
                                 KEY_NAME+KEY_EXTENSION)
 
+DJANGO_PORT=8000
+
 boto.set_stream_logger("boto")

@@ -17,7 +17,7 @@ def launch_instance(ec2_region=defaults.EC2_REGION,
                     cidr='0.0.0.0/0',
                     tag=defaults.INSTANCE_TAG,
                     user_data=None,
-                    cmd_shell=True,
+                    cmd_shell=False,
                     login_user=defaults.EC2_USER_BITNAMI, # default user on BitNami AMIs, ec2-user is the default on Ubuntu AMIs
                     ssh_passwd=None):
     """
@@ -107,6 +107,7 @@ def launch_instance(ec2_region=defaults.EC2_REGION,
     # on the specified port.
     try:
         group.authorize('tcp', ssh_port, ssh_port, cidr)
+        group.authorize('tcp', defaults.DJANGO_PORT, defaults.DJANGO_PORT, cidr)
     except ec2.ResponseError, e:
         if e.code == 'InvalidPermission.Duplicate':
             print 'Security Group: %s already authorized' % group_name
@@ -144,7 +145,7 @@ def launch_instance(ec2_region=defaults.EC2_REGION,
     # The instance is now running, let's try to programmatically
     # SSH to the instance using Paramiko via boto CmdShell.
 
-    if cmd_shell:
+    if cmd_shell: # this keeps timing out. Better to rely on Fabric to ssh
         key_path = os.path.join(os.path.expanduser(key_dir),
                                 key_name+key_extension)
         cmd = boto.manage.cmdshell.sshclient_from_instance(instance,
