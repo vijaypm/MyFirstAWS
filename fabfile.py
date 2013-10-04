@@ -37,6 +37,7 @@ def deploy():
     time.sleep(sleeptime)
 
     print('attempting to connect to %s' % instance.public_dns_name)
-    execute(remote_uname, hosts=[instance.public_dns_name])
+    execute(deploy_photosite, hosts=[instance.public_dns_name])
 
+def undeploy():
     TerminateEC2.terminateAll()
