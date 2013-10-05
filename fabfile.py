@@ -4,6 +4,7 @@ import LaunchEC2
 import TerminateEC2
 import defaults
 import time
+import os
 
 #env.hosts = []
 env.user = defaults.EC2_USER_BITNAMI
@@ -25,6 +26,8 @@ def deploy_photosite():
     run('sudo pip install django-storages')
     run('sudo pip install wsgiref')
     run("echo 'Y' | sudo apt-get install git")
+    run('echo "export AWS_ACCESS_KEY_ID=%s" >> .bashrc' % os.getenv("AWS_ACCESS_KEY_ID"))
+    run('echo "export AWS_SECRET_ACCESS_KEY=%s" >> .bashrc' % os.getenv("AWS_SECRET_ACCESS_KEY"))
     run('git clone https://github.com/vijaypm/MyPhotoSite.git')
     with cd('MyPhotoSite'):
         run('python manage.py syncdb')
