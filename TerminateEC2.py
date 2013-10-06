@@ -2,7 +2,7 @@ __author__ = 'vijay'
 import boto.ec2
 import defaults
 
-def stopAll(ec2_region=defaults.EC2_REGION):
+def stop_all(ec2_region=defaults.EC2_REGION):
     ec2_conn = boto.ec2.connect_to_region(ec2_region)
     reservations = ec2_conn.get_all_instances(filters = {"instance-state-name":"running"})
     reservations
@@ -11,7 +11,7 @@ def stopAll(ec2_region=defaults.EC2_REGION):
     ec2_conn.stop_instances([i.id for i in instances])
     return
 
-def terminateAll(ec2_region=defaults.EC2_REGION):
+def terminate_all(ec2_region=defaults.EC2_REGION):
     ec2_conn = boto.ec2.connect_to_region(ec2_region)
     reservations = ec2_conn.get_all_instances()
     reservations
