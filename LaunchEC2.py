@@ -1,4 +1,4 @@
-__author__ = 'vijay'
+# Modified code from the book 'Python and AWS Cookbook' by Mitch Garnaat
 import os
 import time
 import boto
